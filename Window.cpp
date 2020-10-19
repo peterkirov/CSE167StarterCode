@@ -9,6 +9,9 @@ const char* Window::windowTitle = "GLFW Starter Project";
 // Objects to Render
 Cube * Window::cube;
 PointCloud * Window::cubePoints;
+PointCloud* Window::bunnyPoints;
+PointCloud* Window::sandalPoints;
+PointCloud* Window::bearPoints;
 Object* currObj;
 
 // Camera Matrices 
@@ -46,10 +49,12 @@ bool Window::initializeObjects()
 	cube = new Cube(5.0f);
 
 	// Create a point cloud consisting of cube vertices.
-	cubePoints = new PointCloud("foo", 100);
-
+	//cubePoints = new PointCloud("foo", 100);
+	bunnyPoints = new PointCloud("bunny.obj", 1);
+	sandalPoints = new PointCloud("foo", 1);
+	bearPoints = new PointCloud("foo", 1);
 	// Set cube to be the first to display
-	currObj = cube;
+	currObj = bunnyPoints;
 
 	return true;
 }

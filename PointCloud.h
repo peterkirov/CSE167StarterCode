@@ -2,7 +2,9 @@
 #define _POINT_CLOUD_H_
 
 #include "Object.h"
-
+#include <fstream>
+#include <sstream>
+#include <iostream>
 #include <vector>
 #include <string>
 
