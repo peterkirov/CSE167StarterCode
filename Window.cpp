@@ -50,9 +50,9 @@ bool Window::initializeObjects()
 
 	// Create a point cloud consisting of cube vertices.
 	//cubePoints = new PointCloud("foo", 100);
-	bunnyPoints = new PointCloud("bunny.obj", 1);
-	sandalPoints = new PointCloud("foo", 1);
-	bearPoints = new PointCloud("foo", 1);
+	bunnyPoints = new PointCloud("bunny.obj", 10);
+	sandalPoints = new PointCloud("SandalF20.obj", 1);
+	bearPoints = new PointCloud("bear.obj", 1);
 	// Set cube to be the first to display
 	currObj = bunnyPoints;
 
@@ -62,9 +62,11 @@ bool Window::initializeObjects()
 void Window::cleanUp()
 {
 	// Deallcoate the objects.
-	delete cube;
-	delete cubePoints;
-
+	//delete cube;
+	//delete cubePoints;
+	delete bunnyPoints;
+	delete sandalPoints;
+	delete bearPoints;
 	// Delete the shader program.
 	glDeleteProgram(shaderProgram);
 }
@@ -187,7 +189,21 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 		case GLFW_KEY_2:
 			currObj = cubePoints;
 			break;
-
+		case  GLFW_KEY_F1:
+			currObj = bunnyPoints;
+			break;
+		case  GLFW_KEY_F2:
+			currObj = sandalPoints;
+			break;
+		case  GLFW_KEY_F3:
+			currObj = bearPoints;
+			break;
+		case  GLFW_KEY_S:
+			currObj->updatePointSize(-2);
+			break;
+		case  GLFW_KEY_L:
+			currObj->updatePointSize(2);
+			break;
 		default:
 			break;
 		}

@@ -59,12 +59,70 @@ PointCloud::PointCloud(std::string objFilename, GLfloat pointSize)
 	}
 
 	objFile.close();
-
 	/*
 	 * TODO: Section 4, you will need to normalize the object to fit in the
-	 * screen. 
-	 */
+     * screen.
+     */
 
+	//init maxs and mins
+	float xMax = -100000000.;
+	float xMin = 100000000.;
+	float yMax = -100000000.;
+	float yMin = 100000000.;
+	float zMax = -100000000.;
+	float zMin = 100000000.;
+
+	//find the max and min for each x,y,z
+	for (auto& point : points) {
+		if (point.x > xMax) {
+			xMax = point.x;
+		}
+		if (point.x < xMin) {
+			xMin = point.x;
+		}
+		if (point.y > yMax) {
+			yMax = point.y;
+		}
+		if (point.y < yMin) {
+			yMin = point.y;
+		}
+		if (point.z > zMax) {
+			zMax = point.z;
+		}
+		if (point.z < zMin) {
+			zMin = point.z;
+		}
+	}
+	//calc mid point
+	float midx = (xMax + xMin) / 2;
+	float midy = (yMax + yMin) / 2;
+	float midz = (zMax + zMin) / 2;
+	//init midpoint
+	glm::vec3 point;
+	point.x = midx;
+	point.y = midy;
+	point.z = midz;
+	//subtract each point by the midpoint
+	for (auto& point : points) {
+		point.x -= midx;
+		point.y -= midy;
+		point.z -= midz;
+	}
+	//get the scale factor
+	float sFactor = std::max(xMax-xMin, yMax - yMin );
+	sFactor = std::max(sFactor, zMax - zMin);
+	for (auto& point : points) {
+		point.x /= sFactor;
+		point.y /= sFactor;
+		point.z /= sFactor;
+	}
+
+	float upFactor = 15.4;
+	for (auto& point : points) {
+		point.x *= upFactor;
+		point.y *= upFactor;
+		point.z *= upFactor;
+	}
 	// Set the model matrix to an identity matrix. 
 	model = glm::mat4(1);
 
@@ -88,6 +146,10 @@ PointCloud::PointCloud(std::string objFilename, GLfloat pointSize)
 	// Unbind the VBO/VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+
+
+
 }
 
 PointCloud::~PointCloud() 
@@ -125,7 +187,8 @@ void PointCloud::draw(const glm::mat4& view, const glm::mat4& projection, GLuint
 void PointCloud::update()
 {
 	// Spin the cube by 1 degree
-	spin(0.1f);
+	spin(.005f);
+
 }
 
 void PointCloud::updatePointSize(GLfloat size) 
@@ -133,6 +196,8 @@ void PointCloud::updatePointSize(GLfloat size)
 	/*
 	 * TODO: Section 3: Implement this function to adjust the point size.
 	 */
+	pointSize += size;
+
 }
 
 void PointCloud::spin(float deg)

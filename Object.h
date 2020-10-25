@@ -26,6 +26,7 @@ public:
 
 	virtual void draw(const glm::mat4& view, const glm::mat4& projection, GLuint shader) = 0;
 	virtual void update() = 0;
+	virtual void updatePointSize(GLfloat size)=0;
 };
 
 #endif
