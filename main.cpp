@@ -16,6 +16,10 @@ void setup_callbacks(GLFWwindow* window)
 
 	// Set the key callback.
 	glfwSetKeyCallback(window, Window::keyCallback);
+
+	glfwSetMouseButtonCallback(window, Window::mouse_button_callback);
+	glfwSetCursorPosCallback(window, Window::cursor_position_callback);
+	glfwSetScrollCallback(window, Window::scroll_callback);
 }
 
 void setup_opengl_settings()

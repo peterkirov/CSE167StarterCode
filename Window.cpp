@@ -4,6 +4,10 @@
 // Window Properties
 int Window::width;
 int Window::height;
+bool Window::isHeld;
+glm::vec3 Window::lastPoint;
+double Window::pos_x;
+double Window::pos_y;
 const char* Window::windowTitle = "GLFW Starter Project";
 
 // Objects to Render
@@ -148,7 +152,7 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 void Window::idleCallback()
 {
 	// Perform any necessary updates here 
-	currObj->update();
+	//currObj->update();
 }
 
 void Window::displayCallback(GLFWwindow* window)
@@ -168,9 +172,6 @@ void Window::displayCallback(GLFWwindow* window)
 
 void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	/*
-	 * TODO: Modify below to add your key callbacks.
-	 */
 	
 	// Check for a key press.
 	if (action == GLFW_PRESS)
@@ -180,14 +181,6 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 		case GLFW_KEY_ESCAPE:
 			// Close the window. This causes the program to also terminate.
 			glfwSetWindowShouldClose(window, GL_TRUE);				
-			break;
-
-		// switch between the cube and the cube pointCloud
-		case GLFW_KEY_1:
-			currObj = cube;
-			break;
-		case GLFW_KEY_2:
-			currObj = cubePoints;
 			break;
 		case  GLFW_KEY_F1:
 			currObj = bunnyPoints;
@@ -208,4 +201,61 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 			break;
 		}
 	}
+}
+
+void Window::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		isHeld = true;
+		lastPoint = trackBallMapping(pos_x, pos_y);
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		isHeld = false;
+	}
+}
+
+
+void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+	pos_x = xpos;
+	pos_y = ypos;
+
+	glm::vec3 direction, curPoint;
+	float rot_angle;
+
+	if (isHeld) {
+		curPoint = trackBallMapping(pos_x, pos_y);
+		direction = curPoint - lastPoint;
+		float velocity = glm::length(direction);
+		if (velocity > 0.0001) {
+			glm::vec3 rotAxis;
+			rotAxis = glm::cross(lastPoint, curPoint);
+			rot_angle = velocity * 5;
+			currObj->update(rotAxis, rot_angle);
+		}
+	}
+	lastPoint = curPoint;
+}
+
+
+void Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+	double y_off = yoffset;
+	if (y_off > 0) {
+		currObj->scaleObj(glm::vec3(1.3));
+	}
+	else {
+		currObj->scaleObj(glm::vec3(1/1.3));
+	}
+}
+
+glm::vec3 Window::trackBallMapping(double xpos, double ypos)
+{
+	glm::vec3 v;
+	float d;
+	v.x = (2.0 * xpos - width) /width;
+	v.y = (height - 2.0 * ypos) / height;
+	v.z = 0.0;
+	d = glm::length(v);
+	d = (d < 1.0) ? d : 1.0;
+	v.z = sqrtf(1.001 - d * d);
+	v = glm::normalize(v); // Still need to normalize, since we only capped d, not v.
+	return v;
 }

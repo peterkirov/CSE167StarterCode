@@ -16,8 +16,9 @@ public:
 	~Cube();
 
 	void draw(const glm::mat4& view, const glm::mat4& projection, GLuint shader);
-	void update();
+	void update(glm::vec3 rotAxis, GLfloat rot_angle);
 	void updatePointSize(GLfloat size) {}
+	void scaleObj(glm::vec3 size) {}
 	void spin(float deg);
 };
 

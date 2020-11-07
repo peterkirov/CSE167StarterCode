@@ -14,14 +14,17 @@ public:
 	// Window Properties
 	static int width;
 	static int height;
+	static bool isHeld;
+	static double pos_x, pos_y;
+	static glm::vec3 lastPoint;
 	static const char* windowTitle;
 
 	// Objects to Render
 	static Cube* cube;
 	static PointCloud * cubePoints;
-	static PointCloud* bunnyPoints;
-	static PointCloud* sandalPoints;
-	static PointCloud* bearPoints;
+	static PointCloud * bunnyPoints;
+	static PointCloud * sandalPoints;
+	static PointCloud * bearPoints;
 
 	// Camera Matrices
 	static glm::mat4 projection;
@@ -46,6 +49,10 @@ public:
 
 	// Callbacks
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+	static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+	static glm::vec3 trackBallMapping(double xpos, double ypos);
 };
 
 #endif

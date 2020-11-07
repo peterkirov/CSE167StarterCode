@@ -14,8 +14,9 @@ class PointCloud : public Object
 {
 private:
 	std::vector<glm::vec3> points;
-
-	GLuint VAO, VBO;
+	std::vector<glm::vec3> normal;
+	std::vector<glm::uvec3> indices;
+	GLuint VAO, VBO, VBO1, EBO;
 	GLfloat pointSize;
 
 public:
@@ -23,9 +24,10 @@ public:
 	~PointCloud();
 	
 	void draw(const glm::mat4& view, const glm::mat4& projection, GLuint shader);
-	void update();
+	void update(glm::vec3 rotAxis, GLfloat rot_angle);
 
 	void updatePointSize(GLfloat size);
+	void scaleObj(glm::vec3 size);
 	void spin(float deg);
 };
 
