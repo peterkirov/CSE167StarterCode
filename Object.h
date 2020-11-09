@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Materials.h"
 
 //#include <string>
 //#include <vector>
@@ -28,6 +29,8 @@ public:
 	virtual void update(glm::vec3 rotAxis, GLfloat rot_angle) = 0;
 	virtual void updatePointSize(GLfloat size)=0;
 	virtual void scaleObj(glm::vec3 size) = 0;
+	virtual void translateObj(glm::vec3 size) = 0;
+	virtual void spin(float deg) = 0;
 };
 
 #endif

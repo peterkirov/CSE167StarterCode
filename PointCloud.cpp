@@ -2,27 +2,12 @@
 
 
 
-PointCloud::PointCloud(std::string objFilename, GLfloat pointSize) 
-	: pointSize(pointSize)
+PointCloud::PointCloud(std::string objFilename, GLfloat pointSize, Materials * newMaterial) 
+	: pointSize(pointSize), material(newMaterial)
 {
-	/* 
-	 * TODO: Section 2: Currently, all the points are hard coded below. 
-	 * Modify this to read points from an obj file.
-	 */
 	
-	/*points = {
-		glm::vec3(-2.5, 2.5, 2.5),
-		glm::vec3(-2.5, -2.5, 2.5),
-		glm::vec3(2.5, -2.5, 2.5),
-		glm::vec3(2.5, 2.5, 2.5),
-		glm::vec3(-2.5, 2.5, -2.5),
-		glm::vec3(-2.5, -2.5, -2.5),
-		glm::vec3(2.5, -2.5, -2.5),
-		glm::vec3(2.5, 2.5, -2.5)
-	};
-	*/
 	std::ifstream objFile(objFilename); // The obj file we are reading.
-	//std::vector<glm::vec3> points;
+	std::vector<glm::vec3> points;
 
 	// Check whether the file can be opened.
 	if (objFile.is_open())
@@ -87,10 +72,7 @@ PointCloud::PointCloud(std::string objFilename, GLfloat pointSize)
 	}
 
 	objFile.close();
-	/*
-	 * TODO: Section 4, you will need to normalize the object to fit in the
-     * screen.
-     */
+
 
 	//init maxs and mins
 	float xMax = -100000000.;
@@ -206,7 +188,9 @@ void PointCloud::draw(const glm::mat4& view, const glm::mat4& projection, GLuint
 	glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(projection));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
 	glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(color));
+	
 
+	material->sendMatToShader(shader);
 	// Bind the VAO
 	glBindVertexArray(VAO);
 
@@ -217,12 +201,12 @@ void PointCloud::draw(const glm::mat4& view, const glm::mat4& projection, GLuint
 
 	// Unbind the VAO and shader program
 	glBindVertexArray(0);
-	glUseProgram(0);
+	//glUseProgram(0);
 }
 
 void PointCloud::update(glm::vec3 rotAxis, GLfloat rot_angle)
 {
-	model = glm::rotate(model, rot_angle, rotAxis);
+	model = glm::rotate(glm::mat4(1.0f), rot_angle, rotAxis)*model;
 }
 
 void PointCloud::updatePointSize(GLfloat size) 
@@ -239,6 +223,11 @@ void PointCloud::scaleObj(glm::vec3 size)
 	model *= scaler;
 
 }
+void PointCloud::translateObj(glm::vec3 size)
+{
+	model = glm::translate(glm::mat4(1), size) * model;
+}
+
 void PointCloud::spin(float deg)
 {
 	// Update the model matrix by multiplying a rotation matrix

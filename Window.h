@@ -6,7 +6,7 @@
 #include "Object.h"
 #include "Cube.h"
 #include "PointCloud.h"
-
+#include "PointLight.h"
 class Window
 {
 public:
@@ -14,17 +14,25 @@ public:
 	// Window Properties
 	static int width;
 	static int height;
+	static float phong;
+	static float Mode;
 	static bool isHeld;
 	static double pos_x, pos_y;
 	static glm::vec3 lastPoint;
 	static const char* windowTitle;
-
+	static PointLight* pl;
+	//materials for the objects
+	static Materials* bunnyMaterial;
+	static Materials* sandalMaterial;
+	static Materials* bearMaterial;
+	static Materials* sphereMaterial;
 	// Objects to Render
 	static Cube* cube;
 	static PointCloud * cubePoints;
 	static PointCloud * bunnyPoints;
 	static PointCloud * sandalPoints;
 	static PointCloud * bearPoints;
+	static PointCloud * spherePoints;
 
 	// Camera Matrices
 	static glm::mat4 projection;

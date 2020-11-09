@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{c4d853a3-ea8d-4d2e-abc3-a049d84d4a3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cube.cpp">
@@ -28,6 +31,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Materials.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,8 +59,20 @@
     <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Materials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="shaders\shader.frag">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\shader.vert">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
