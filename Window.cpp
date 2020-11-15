@@ -61,7 +61,7 @@ bool Window::initializeObjects()
 	// Create a cube of size 5.
 	cube = new Cube(5.0f);
 	bunnyMaterial = new Materials(glm::vec3(.2), glm::vec3(1), glm::vec3(0), 32);
-	bearMaterial = new Materials(glm::vec3(.2), glm::vec3(0), glm::vec3(1), 32);
+	bearMaterial = new Materials(glm::vec3(.2), glm::vec3(0.2), glm::vec3(1), 32);
 	sandalMaterial = new Materials(glm::vec3(.2), glm::vec3(1), glm::vec3(1), 32);
 	sphereMaterial = new Materials(glm::vec3(0.7, 0.7, 0.2), glm::vec3(0), glm::vec3(0), 32);
 	
@@ -86,12 +86,15 @@ void Window::cleanUp()
 	delete cube;
 	//delete cubePoints;
 	delete pl;
+	delete spherePoints;
 	delete bunnyPoints;
 	delete sandalPoints;
 	delete bearPoints;
 	delete bunnyMaterial;
 	delete bearMaterial;
 	delete sandalMaterial;
+	delete sphereMaterial;
+
 	// Delete the shader program.
 	glDeleteProgram(shaderProgram);
 }

@@ -39,8 +39,8 @@ void main()
         // specular
         vec3 viewDir = normalize(viewPos - fragPosition);
         vec3 reflectDir = reflect(-lightDir, norm);  
-        float spec = pow(max(dot(-viewDir, reflectDir), 0.0), shininess);
-        vec3 specular = lightColor * (spec * specularpassed);  
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+        vec3 specular = (spec * specularpassed);  
         
         float attenuate = 1.0/(0.1 *distance(lightPos, transNorm));
 
